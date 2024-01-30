@@ -1,0 +1,80 @@
+html {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.card {
+  width: 400px;
+  box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%);
+  transition: 0.3s;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.card:hover {
+  box-shadow: 0 8px 16px 0 rgb(0 0 0 / 20%);
+}
+
+.container {
+  padding: 2px 16px;
+}
+
+.description {
+  display: flex;
+  align-items: center;
+}
+
+.badge {
+  margin-left: 8px;
+  font-size: 11px;
+  border-radius: 4px;
+  padding: 4px 6px;
+  white-space: nowrap;
+  font-weight: 700;
+  color: #fff;
+  background: #cc0c39;
+}
+
+.price-container {
+  display: flex;
+  align-items: center;
+  padding-bottom: 16px;
+}
+
+.discount {
+  font-size: 20px;
+  font-weight: 300;
+  color: #b12704;
+  padding: 0 8px 0 0;
+}
+
+.price {
+  font-weight: 800;
+  font-size: 20px;
+}
+
+.last-price {
+  text-decoration: line-through;
+  color: #718096;
+  margin-left: 8px;
+}
+
+.order-status {
+  font-weight: 700;
+}
+
+#notifications {
+  display: none;
+  background-color: #191c1f;
+  color: #fff;
+  padding: 20px;
+  margin: 20px 0;
+  border-radius: 4px;
+  font-size: 0.8em;
+}
