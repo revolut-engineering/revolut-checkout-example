@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   const { revolutPay } = await RevolutCheckout.payments({
-    locale: "en", // Optional, defaults to 'en'
+    locale: "en", // Optional, defaults to 'auto'
     mode: "sandbox", // Optional, defaults to 'prod'
     publicToken: revolutPublicKey, // Merchant public API key
   });

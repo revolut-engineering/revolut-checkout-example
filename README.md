@@ -11,19 +11,15 @@ This repository contains an example integration of Revolut Pay, demonstrating ho
 1. Clone this repo
 
     ```sh
-    $ git clone git@github.com:leodepinho/revolut-pay-example.git
-    $ cd revolut-pay-example/server
+    $ git clone git@github.com:revolut-engineering/revolut-checkout-example.git
+    $ cd revolut-checkout-example/server
     ```
 
-1. Install dependencies, depending on your package manager run
+1. Install dependencies
 
     ```sh title='NPM'
     $ npm install
     ```
-    ```sh title='Yarn'
-    $ yarn install
-    ```
-    
 
 1. Create a [Revolut Business sandbox account](https://sandbox-business.revolut.com)
 
@@ -40,10 +36,6 @@ This repository contains an example integration of Revolut Pay, demonstrating ho
 
     ```sh title='NPM'
     $ npm start
-    ```
-
-    ```sh title='Yarn'
-    $ yarn start
     ```
 
 > [!TIP]
@@ -64,10 +56,6 @@ The Revolut Merchant API supports [webhooks](https://developer.revolut.com/docs/
     
     ```sh
     $ npm install ngrok -g
-    $ ngrok http 5177
-    ```
-    ```sh
-    $ yarn add ngrok
     $ ngrok http 5177
     ```
 
