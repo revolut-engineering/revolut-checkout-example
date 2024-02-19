@@ -9,49 +9,7 @@
   </head>
   <body>
     <div class="wrapper">
-      <nav class="sidebar">
-        <h2>Revolut Pay</h2>
-        <ul>
-          <li>
-            <div class="category active">
-              <span>Examples</span>
-              <span class="chevron"></span>
-            </div>
-            <div class="sub-category">
-              <a href="/">Event Handlers</a>
-              <a href="/redirect_urls">Redirect URLs</a>
-            </div>
-          </li>
-          <li>
-            <div class="category">
-              <span>Docs</span>
-              <span class="chevron"></span>
-            </div>
-            <div class="sub-category">
-              <a
-                href="https://developer.revolut.com/docs/sdks/revolut-checkout-js/initialize-widget/revolut-checkout-payments/revolut-checkout-payments-revolut-pay2"
-                target="_blank"
-                >Initialize widget</a
-              >
-              <a
-                href="https://developer.revolut.com/docs/merchant/merchant-api"
-                target="_blank"
-                >Merchant API</a
-              >
-              <a
-                href="https://developer.revolut.com/docs/merchant/orders"
-                target="_blank"
-                >Orders</a
-              >
-              <a
-                href="https://developer.revolut.com/docs/merchant/webhooks"
-                target="_blank"
-                >Webhooks</a
-              >
-            </div>
-          </li>
-        </ul>
-      </nav>
+      <%- include("./partials/sidebar.html") %>
       <main>
         <h1>Revolut Pay - Redirect URLs</h1>
         <div class="card">

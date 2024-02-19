@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import bodyParser from "body-parser";
 import path from "path";
+import ejs from "ejs";
 import { fileURLToPath } from "url";
 import fetch from "node-fetch";
 import { validateSignature, validateTimestamp } from "./helpers.js";
@@ -168,6 +169,14 @@ app.post("/webhook", (req, res) => {
 
 /* ################ CLIENT ENDPOINTS ################ */
 
+app.engine("html", ejs.renderFile);
+app.set("view engine", "html");
+app.set("views", path.join(__dirname, process.env.STATIC_DIR));
+
+app.get("/", (req, res) => {
+  res.render("index");
+});
+
 app.get("/config", (req, res) => {
   res.send({
     revolutPublicKey: process.env.REVOLUT_API_PUBLIC_KEY,
@@ -179,23 +188,17 @@ app.use("/", express.static(path.join(__dirname, process.env.STATIC_DIR)));
 
 // Order status Page
 app.get("/order-status", (req, res) => {
-  res.sendFile(
-    path.join(__dirname, process.env.STATIC_DIR + "/order-status.html"),
-  );
+  res.render("order-status");
 });
 
 // Redirect URLs Page
 app.get("/redirect_urls", (req, res) => {
-  res.sendFile(
-    path.join(__dirname, process.env.STATIC_DIR + "/redirect-urls.html"),
-  );
+  res.render("redirect-urls");
 });
 
 // Handling Redirect URLs (success|cancel|failure)
 app.get("/:type(success|cancel|failure)", (req, res) => {
-  res.sendFile(
-    path.join(__dirname, process.env.STATIC_DIR + "/order-status.html"),
-  );
+  res.render("order-status");
 });
 
 app.use((req, res) => {

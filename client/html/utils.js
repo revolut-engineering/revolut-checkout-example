@@ -54,10 +54,17 @@ categoryElements.forEach(function (category) {
   });
 });
 
-document.getElementById("close-btn").addEventListener("click", () => {
-  document.getElementById("overlay").style.display = "none";
-});
+const modalCloseButton = document.getElementById("close-btn");
+const modalDoneButton = document.getElementById("done-btn");
 
-document.getElementById("done-btn").addEventListener("click", () => {
-  document.getElementById("overlay").style.display = "none";
-});
+if (modalCloseButton) {
+  modalCloseButton.addEventListener("click", () => {
+    document.getElementById("overlay").style.display = "none";
+  });
+}
+
+if (modalDoneButton) {
+  modalDoneButton.addEventListener("click", () => {
+    document.getElementById("overlay").style.display = "none";
+  });
+}
