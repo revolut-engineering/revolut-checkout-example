@@ -6,6 +6,7 @@ import { fileURLToPath } from "url";
 import fetch from "node-fetch";
 import { validateSignature, validateTimestamp } from "./helpers.js";
 import orders from "./orders.js";
+import ordersQueue from "./queue/orders-queue.js";
 
 const app = express();
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -128,6 +129,8 @@ app.post("/webhook", (req, res) => {
     }
 
     if (isSignatureValid) {
+      const order = orders.getOrderByRevolutId(req.body["order_id"]);
+
       // Return 200 response before doing any order computation
       res.sendStatus(200);
 
@@ -135,12 +138,24 @@ app.post("/webhook", (req, res) => {
         // Add any order management logic (send emails, update orders, etc)
         case "ORDER_COMPLETED":
           console.log("Webhook - Order Completed!");
+          ordersQueue.push({
+            orderId: order.id,
+            event: req.body.event,
+          });
           break;
         case "ORDER_AUTHORISED":
           console.log("Webhook - Order Authorised!");
+          ordersQueue.push({
+            orderId: order.id,
+            event: req.body.event,
+          });
           break;
         default:
           console.log("Webhook - Order Event", req.body.event);
+          ordersQueue.push({
+            orderId: order.id,
+            event: req.body.event,
+          });
           break;
       }
     }
