@@ -1,5 +1,9 @@
 import RevolutCheckout from "https://unpkg.com/@revolut/checkout/esm";
-import { staticProduct, addNotification } from "./utils.js";
+import {
+  staticProduct,
+  addNotification,
+  addModalNotification,
+} from "./utils.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
   const { revolutPublicKey } = await fetch("/config").then((r) => r.json());
@@ -51,7 +55,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     switch (event.type) {
       case "cancel": {
         console.log("payment canceled");
-        addNotification(
+        addModalNotification(
+          "Canceled Payment",
           `Order canceled ${event.orderId ? `- orderId: ${event.orderId}` : ""}`,
         );
         break;
@@ -59,16 +64,18 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       case "success":
         console.log("payment successful");
-        window.location.href = `/order-status?_rp_oid=${event.orderId}`;
+        addModalNotification(
+          "Payment complete",
+          `Order completed ${event.orderId ? `- orderId: ${event.orderId}` : ""}`,
+        );
         break;
 
       case "error":
         console.log("error in payment");
-        if (event.orderId) {
-          window.location.href = `/order-status?_rp_oid=${event.orderId}`;
-        } else {
-          addNotification(event.error.message);
-        }
+        addModalNotification(
+          "Error in payment",
+          `Error in order ${event.orderId ? `- orderId: ${event.orderId}` : ""}`,
+        );
         break;
     }
   });

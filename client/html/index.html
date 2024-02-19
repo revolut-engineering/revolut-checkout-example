@@ -3,14 +3,15 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>RevolutPay Example</title>
+    <title>Revolut Pay Example</title>
     <link rel="stylesheet" href="./css/base.css" />
     <link rel="stylesheet" href="./css/sidebar.css" />
+    <link rel="stylesheet" href="./css/modal.css" />
   </head>
   <body>
     <div class="wrapper">
       <nav class="sidebar">
-        <h2>RevolutPay</h2>
+        <h2>Revolut Pay</h2>
         <ul>
           <li>
             <div class="category active">
@@ -19,7 +20,7 @@
             </div>
             <div class="sub-category">
               <a href="/">Event Handlers</a>
-              <a href="/redirect_urls">Redirect URL's</a>
+              <a href="/redirect_urls">Redirect URLs</a>
             </div>
           </li>
           <li>
@@ -76,6 +77,13 @@
           </div>
         </div>
         <div id="notifications" role="alert"></div>
+        <div class="overlay" id="overlay">
+          <div class="popup">
+            <span class="close-btn" id="close-btn">✕</span>
+            <div id="popup-content"></div>
+            <button class="done-btn" id="done-btn">Done</button>
+          </div>
+        </div>
       </main>
     </div>
     <script type="module" src="./index.js"></script>
