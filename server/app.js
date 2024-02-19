@@ -35,7 +35,7 @@ app.post("/api/orders", async (req, res) => {
     const { amount, currency, name } = req.body;
     // For more information, see: https://developer.revolut.com/docs/merchant/create-order
     const response = await fetch(
-      `https://sandbox-merchant.revolut.com/api/1.0/orders`,
+      `${process.env.REVOLUT_API_URL}/api/1.0/orders`,
       {
         method: "POST",
         headers: {
@@ -76,7 +76,7 @@ app.get("/api/orders/:id", async (req, res) => {
     const response = await fetch(
       // For more information, see: https://developer.revolut.com/docs/merchant/retrieve-order
       // We use the internal revolut id instead of the public one
-      `https://sandbox-merchant.revolut.com/api/1.0/orders/${order.revolutOrderId}`,
+      `${process.env.REVOLUT_API_URL}/api/1.0/orders/${order.revolutOrderId}`,
       {
         method: "GET",
         headers: {
