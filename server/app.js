@@ -4,7 +4,7 @@ import bodyParser from "body-parser";
 import path from "path";
 import { fileURLToPath } from "url";
 import fetch from "node-fetch";
-import { validateSignature } from "./helpers.js";
+import { validateSignature, validateTimestamp } from "./helpers.js";
 import orders from "./orders.js";
 
 const app = express();
@@ -118,6 +118,15 @@ app.post("/webhook", (req, res) => {
       payloadToSign,
     });
 
+    // Validates if the timestamp is within an acceptable timeframe
+    // For more information visit https://webhooks.fyi/security/replay-prevention
+    const isTimestampValid = validateTimestamp(revolutRequestTimestamp);
+
+    if (!isTimestampValid) {
+      // The request timestamp is outside of the tolerance zone.
+      return res.status(403).send("Timestamp outside the tolerance zone");
+    }
+
     if (isSignatureValid) {
       // Return 200 response before doing any order computation
       res.sendStatus(200);
@@ -135,7 +144,6 @@ app.post("/webhook", (req, res) => {
           break;
       }
     }
-
   } catch (error) {
     console.log(error);
   }
@@ -161,14 +169,14 @@ app.get("/order-status", (req, res) => {
   );
 });
 
-// Redirect URL'S Page
+// Redirect URLs Page
 app.get("/redirect_urls", (req, res) => {
   res.sendFile(
     path.join(__dirname, process.env.STATIC_DIR + "/redirect-urls.html"),
   );
 });
 
-// Handling Redirect URL'S (success|cancel|failure)
+// Handling Redirect URLs (success|cancel|failure)
 app.get("/:type(success|cancel|failure)", (req, res) => {
   res.sendFile(
     path.join(__dirname, process.env.STATIC_DIR + "/order-status.html"),
