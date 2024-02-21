@@ -39,7 +39,8 @@ This repository contains an example integration of Revolut Pay, demonstrating ho
     ```
 
 > [!TIP]
-> For testing purposes you can use our [test cards](https://developer.revolut.com/docs/guides/accept-payments/get-started/test-in-the-sandbox-environment/test-cards)
+> For testing purposes you can use our [test cards](https://developer.revolut.com/docs/guides/accept-payments/get-started/test-in-the-sandbox-environment/test-cards).
+> For testing other environments you can change the `REVOLUT_API_URL`, update you Revolut keys and start the server again.
 
 ## Webhooks
 

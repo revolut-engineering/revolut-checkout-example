@@ -1,8 +1,10 @@
 import fastq from "fastq";
 import orders from "../orders.js";
 
-const worker = async ({ orderId, status }) => {
-  orders.updateOrderStatus(orderId, status);
+const worker = async ({ orderId: revolutOrderId, status }) => {
+  const order = orders.getOrderByRevolutId(revolutOrderId);
+
+  orders.updateOrderStatus(order.id, status);
 };
 
 // Use any queue library that best suits your needs (AWS SQS, PubSub, bull, etc.)
