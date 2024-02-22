@@ -19,12 +19,12 @@ export const validateSignature = ({
   return originalSignature === signature;
 };
 
-// 5 minutes tolerance (seconds)
-const TOLERANCE_ZONE = 300;
+// 5 minutes tolerance (milliseconds)
+const TOLERANCE_ZONE = 300000;
 
 export const validateTimestamp = (requestTimestamp) => {
-  const currentTimestamp = Math.floor(Date.now() / 1000);
-  const difference = currentTimestamp -  Math.floor(requestTimestamp / 1000);
+  const currentTimestamp = Date.now();
+  const difference = currentTimestamp - requestTimestamp;
 
   return difference >= 0 && difference <= TOLERANCE_ZONE;
 };
