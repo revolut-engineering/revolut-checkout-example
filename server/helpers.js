@@ -24,7 +24,7 @@ const TOLERANCE_ZONE = 300;
 
 export const validateTimestamp = (requestTimestamp) => {
   const currentTimestamp = Math.floor(Date.now() / 1000);
-  const difference = currentTimestamp - requestTimestamp;
+  const difference = currentTimestamp -  Math.floor(requestTimestamp / 1000);
 
   return difference >= 0 && difference <= TOLERANCE_ZONE;
 };

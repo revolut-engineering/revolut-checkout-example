@@ -102,7 +102,7 @@ app.post("/webhook", (req, res) => {
     const revolutSignature = req.headers["revolut-signature"];
     const revolutRequestTimestamp = req.headers["revolut-request-timestamp"];
     const rawPayload = req.rawBody;
-    const revolutOrderId = req.body["order_id"];
+    const payload = req.body;
 
     // Revolut signature verification
     // For more information visit https://developer.revolut.com/docs/guides/accept-payments/tutorials/work-with-webhooks/verify-the-payload-signature
@@ -131,29 +131,20 @@ app.post("/webhook", (req, res) => {
     }
 
     if (isSignatureValid) {
-      switch (req.body.event) {
+      switch (payload.event) {
         // Don't process orders directly in the webhook handler
         // Schedule order management logic (send emails, update orders, etc.) and return 200 as soon as possible
         case "ORDER_COMPLETED":
           console.log("Webhook - Order Completed!");
-          ordersQueue.push({
-            orderId: revolutOrderId,
-            event: req.body.event,
-          });
+          ordersQueue.push(payload);
           break;
         case "ORDER_AUTHORISED":
           console.log("Webhook - Order Authorised!");
-          ordersQueue.push({
-            orderId: revolutOrderId,
-            event: req.body.event,
-          });
+          ordersQueue.push(payload);
           break;
         default:
-          console.log("Webhook - Order Event", req.body.event);
-          ordersQueue.push({
-            orderId: revolutOrderId,
-            event: req.body.event,
-          });
+          console.log("Webhook - Order Event", payload.event);
+          ordersQueue.push(payload);
           break;
       }
 

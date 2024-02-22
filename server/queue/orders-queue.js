@@ -1,7 +1,7 @@
 import fastq from "fastq";
 import orders from "../orders.js";
 
-const worker = async ({ orderId: revolutOrderId, status }) => {
+const worker = async ({ order_id: revolutOrderId, event: status }) => {
   const order = orders.getOrderByRevolutId(revolutOrderId);
 
   orders.updateOrderStatus(order.id, status);
