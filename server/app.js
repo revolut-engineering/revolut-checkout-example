@@ -2,10 +2,12 @@ import express from "express";
 import dotenv from "dotenv";
 import bodyParser from "body-parser";
 import path from "path";
+import ejs from "ejs";
 import { fileURLToPath } from "url";
 import fetch from "node-fetch";
-import { validateSignature } from "./helpers.js";
+import { validateSignature, validateTimestamp } from "./helpers.js";
 import orders from "./orders.js";
+import ordersQueue from "./queue/orders-queue.js";
 
 const app = express();
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -33,7 +35,7 @@ app.post("/api/orders", async (req, res) => {
     const { amount, currency, name } = req.body;
     // For more information, see: https://developer.revolut.com/docs/merchant/create-order
     const response = await fetch(
-      `https://sandbox-merchant.revolut.com/api/1.0/orders`,
+      `${process.env.REVOLUT_API_URL}/api/1.0/orders`,
       {
         method: "POST",
         headers: {
@@ -74,7 +76,7 @@ app.get("/api/orders/:id", async (req, res) => {
     const response = await fetch(
       // For more information, see: https://developer.revolut.com/docs/merchant/retrieve-order
       // We use the internal revolut id instead of the public one
-      `https://sandbox-merchant.revolut.com/api/1.0/orders/${order.revolutOrderId}`,
+      `${process.env.REVOLUT_API_URL}/api/1.0/orders/${order.revolutOrderId}`,
       {
         method: "GET",
         headers: {
@@ -100,6 +102,7 @@ app.post("/webhook", (req, res) => {
     const revolutSignature = req.headers["revolut-signature"];
     const revolutRequestTimestamp = req.headers["revolut-request-timestamp"];
     const rawPayload = req.rawBody;
+    const payload = req.body;
 
     // Revolut signature verification
     // For more information visit https://developer.revolut.com/docs/guides/accept-payments/tutorials/work-with-webhooks/verify-the-payload-signature
@@ -118,24 +121,35 @@ app.post("/webhook", (req, res) => {
       payloadToSign,
     });
 
-    if (isSignatureValid) {
-      // Return 200 response before doing any order computation
-      res.sendStatus(200);
+    // Validates if the timestamp is within an acceptable timeframe
+    // For more information visit https://webhooks.fyi/security/replay-prevention
+    const isTimestampValid = validateTimestamp(revolutRequestTimestamp);
 
-      switch (req.body.event) {
-        // Add any order management logic (send emails, update orders, etc)
+    if (!isTimestampValid) {
+      // The request timestamp is outside of the tolerance zone.
+      return res.status(403).send("Timestamp outside the tolerance zone");
+    }
+
+    if (isSignatureValid) {
+      switch (payload.event) {
+        // Don't process orders directly in the webhook handler
+        // Schedule order management logic (send emails, update orders, etc.) and return 200 as soon as possible
         case "ORDER_COMPLETED":
           console.log("Webhook - Order Completed!");
+          ordersQueue.push(payload);
           break;
         case "ORDER_AUTHORISED":
           console.log("Webhook - Order Authorised!");
+          ordersQueue.push(payload);
           break;
         default:
-          console.log("Webhook - Order Event", req.body.event);
+          console.log("Webhook - Order Event", payload.event);
+          ordersQueue.push(payload);
           break;
       }
-    }
 
+      res.sendStatus(200);
+    }
   } catch (error) {
     console.log(error);
   }
@@ -144,6 +158,14 @@ app.post("/webhook", (req, res) => {
 /* ################ end API ENDPOINTS ################ */
 
 /* ################ CLIENT ENDPOINTS ################ */
+
+app.engine("html", ejs.renderFile);
+app.set("view engine", "html");
+app.set("views", path.join(__dirname, process.env.STATIC_DIR));
+
+app.get("/", (req, res) => {
+  res.render("index");
+});
 
 app.get("/config", (req, res) => {
   res.send({
@@ -156,23 +178,17 @@ app.use("/", express.static(path.join(__dirname, process.env.STATIC_DIR)));
 
 // Order status Page
 app.get("/order-status", (req, res) => {
-  res.sendFile(
-    path.join(__dirname, process.env.STATIC_DIR + "/order-status.html"),
-  );
+  res.render("order-status");
 });
 
-// Redirect URL'S Page
+// Redirect URLs Page
 app.get("/redirect_urls", (req, res) => {
-  res.sendFile(
-    path.join(__dirname, process.env.STATIC_DIR + "/redirect-urls.html"),
-  );
+  res.render("redirect-urls");
 });
 
-// Handling Redirect URL'S (success|cancel|failure)
+// Handling Redirect URLs (success|cancel|failure)
 app.get("/:type(success|cancel|failure)", (req, res) => {
-  res.sendFile(
-    path.join(__dirname, process.env.STATIC_DIR + "/order-status.html"),
-  );
+  res.render("order-status");
 });
 
 app.use((req, res) => {

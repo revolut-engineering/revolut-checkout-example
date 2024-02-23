@@ -18,3 +18,13 @@ export const validateSignature = ({
 
   return originalSignature === signature;
 };
+
+// 5 minutes tolerance (milliseconds)
+const TOLERANCE_ZONE = 300000;
+
+export const validateTimestamp = (requestTimestamp) => {
+  const currentTimestamp = Date.now();
+  const difference = currentTimestamp - requestTimestamp;
+
+  return difference >= 0 && difference <= TOLERANCE_ZONE;
+};
