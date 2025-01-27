@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Card Payments Example</title>
+    <link rel="stylesheet" href="./css/base.css" />
+    <link rel="stylesheet" href="./css/sidebar.css" />
+    <link rel="stylesheet" href="./css/modal.css" />
+  </head>
+  <body>
+    <div class="wrapper">
+      <%- include("./partials/sidebar.html") %>
+      <main>
+        <h1>Card field</h1>
+        <div class="card">
+          <img
+            src="./assets/nice_glasses.jpeg"
+            alt="Avatar"
+            style="width: 100%"
+          />
+          <div class="container">
+            <div class="description">
+              <h3 id="product_name">Rounded Glasses</h3>
+              <div class="badge">
+                <span>Hot deal</span>
+              </div>
+            </div>
+            <div class="price-container">
+              <span class="discount">-52%</span>
+              <span class="price">$0.57</span>
+              <span class="last-price">$1.19</span>
+            </div>
+            <div class="checkout-container">
+              <button id="checkout-btn" class="checkout">Checkout Now</button>
+            </div>
+          </div>
+        </div>
+        <div id="notifications" role="alert"></div>
+        <div class="overlay" id="overlay">
+          <div class="popup">
+            <span class="close-btn" id="close-btn">✕</span>
+            <div id="popup-content"></div>
+            <button class="done-btn" id="done-btn">Done</button>
+          </div>
+        </div>
+      </main>
+    </div>
+    <script type="module" src="./index.js"></script>
+  </body>
+</html>
