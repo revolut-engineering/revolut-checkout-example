@@ -12,7 +12,7 @@ This repository contains an example integration of Revolut Pay, demonstrating ho
 
     ```sh
     $ git clone git@github.com:revolut-engineering/revolut-checkout-example.git
-    $ cd revolut-checkout-example/server
+    $ cd revolut-checkout-example/revolut-pay-example/server
     ```
 
 1. Install dependencies

@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Card Payments Example</title>
+    <link rel="stylesheet" href="./css/base.css" />
+    <link rel="stylesheet" href="./css/sidebar.css" />
+    <link rel="stylesheet" href="./css/form.css" />
+    <link rel="stylesheet" href="./css/modal.css" />
+  </head>
+  <body>
+    <div class="wrapper">
+      <%- include("./partials/sidebar.html") %>
+      <main>
+        <h1>Checkout</h1>
+        <form id="checkoutForm">
+          <label for="name">Full Name</label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            placeholder="Enter your full name"
+            required
+          />
+
+          <label for="email">Email</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="Enter your email address"
+            required
+          />
+
+          <!-- Card field -->
+          <div id="card-field" class="input-card"></div>
+
+          <button type="submit">Submit</button>
+        </form>
+        <div id="notifications" role="alert"></div>
+        <div class="overlay" id="overlay">
+          <div class="popup">
+            <span class="close-btn" id="close-btn">✕</span>
+            <div id="popup-content"></div>
+            <button class="done-btn" id="done-btn">Done</button>
+          </div>
+        </div>
+      </main>
+    </div>
+    <script type="module" src="./checkout.js"></script>
+  </body>
+</html>
