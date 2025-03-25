@@ -8,16 +8,16 @@ This repository contains a collection of integration examples for the [`RevolutC
 
 The examples in this repository showcase how to integrate:
 
-- **Revolut Pay** - A complete integration example demonstrating how to accept payments via Revolut Pay.
+- [**Revolut Pay**](https://github.com/revolut-engineering/revolut-checkout-example/tree/main/revolut-pay-example) - A complete integration example demonstrating how to accept payments via Revolut Pay.
 - [**Card field**](https://github.com/revolut-engineering/revolut-checkout-example/tree/main/card-payments-example) - An example using an embedded card field for collecting card details.
-- **Card payments: Card pop-up** - A demo of a pop-up widget for card payments that securely collects customer card details.
+- **Card pop-up** - A demo of a pop-up widget for card payments that securely collects customer card details.
 
-## Resources
+## Documentation and other resources
 
-- [Revolut Checkout SDK Documentation](https://developer.revolut.com/docs/sdks/merchant-web-sdk/introduction)
-- [Revolut Merchant API Reference](https://developer.revolut.com/docs/merchant/merchant-api)
-- [Revolut Test Cards](https://developer.revolut.com/docs/guides/accept-payments/get-started/test-implementation/test-cards)
+- [Revolut Checkout SDK Documentation](https://developer.revolut.com/docs/sdks/merchant-web-sdk/introduction) - To explore the possible parameters of the SDKs.
+- [Revolut Merchant API Reference](https://developer.revolut.com/docs/merchant/merchant-api) - To explore the features of the Merchant API.
 - [Revolut Business Sandbox](https://sandbox-business.revolut.com/) - To create a test account.
+- [Revolut Test Cards](https://developer.revolut.com/docs/guides/accept-payments/get-started/test-implementation/test-cards) - To test your Sandbox payments.
 
 
 
