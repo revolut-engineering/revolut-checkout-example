@@ -1,6 +1,6 @@
 # Revolut Checkout integration examples
 
-![Revolut logo](./images/logo-dark.svg)
+![Revolut logo](./images/logo-light.svg)
 
 This repository contains a collection of integration examples for the [`RevolutCheckout.js`](https://github.com/revolut-engineering/revolut-checkout) package. It provides simple, practical demos to help you integrate Revolut's payment solutions on your website or application.
 
