@@ -1,6 +1,8 @@
 # Revolut Pay integration example
 
-This example demonstrates how to integrate Revolut Pay into your checkout process using a two-tiered approach that separates the client-side presentation from the backend logic. Explore this simplified demo to observe the code and SDK configuration you need to familiarise yourself with Revolut Pay.
+![Revolut logo](../images/logo-revolut-pay.svg)
+
+This example demonstrates how to integrate Revolut Pay into your checkout process using a two-tiered approach that separates the client-side presentation from the backend logic. Explore this simplified demo to observe the code and SDK configuration you need to start accepting payments with Revolut Pay.
 
 The example inlcudes a simple Node.JS server app using the Merchant API, paired with a simple HTML client checkout experience.
 
@@ -21,8 +23,8 @@ The example inlcudes a simple Node.JS server app using the Merchant API, paired 
 
 The example showcases two integration options:
 
-- Event handling: The SDK listens to payment events (e.g., success, error, cancel) via callbacks.
-- Redirect URLs: The SDK redirects the user to a specified URLs based on the payment outcome
+- **Event handling:** The SDK listens to payment events (e.g., success, error, cancel) via callbacks.
+- **Redirect URLs:** The SDK redirects the user to a specified URLs based on the payment outcome
 
 > [!NOTE]
 > For further details about the code and the SDK's behaviour, please refer to the inline comments in the code.
@@ -80,18 +82,22 @@ The example showcases two integration options:
     npm start
     ```
     ```sh title='Yarn'
-    yarn install
+    yarn start
     ```
 
 
 ### 5. Test the SDK
 
 1. Visit [http://localhost:5177/](http://localhost:5177/) to see the application.
-
+1. From the sidebar, select the integration you want to test:
+  - **Event Handlers**
+  - **Redirect URLs** 
 1. Try out different [payment flows](https://developer.revolut.com/docs/guides/accept-payments/get-started/test-implementation/test-flows#revolut-pay) using our [test cards](https://developer.revolut.com/docs/guides/accept-payments/get-started/test-in-the-sandbox-environment/test-cards) in the Sandbox environment.
 
 > [!TIP]
 > To test the SDK in production enviroment update the following enviroment variables: `REVOLUT_API_URL`, `REVOLUT_API_PUBLIC_KEY`, `REVOLUT_API_SECRET_KEY` and restart the server.
+>
+> To test Revolut Pay account-to-account payment flow in prodcution, you need a Revolut account and the Revolut app installed.
 
 ## Webhooks
 
