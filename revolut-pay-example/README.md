@@ -1,50 +1,101 @@
-# Revolut Pay example
+# Revolut Pay integration example
 
-This repository contains an example integration of Revolut Pay, demonstrating how to integrate Revolut Pay's payment processing capabilities in your web application. It includes setup instructions, webhook configuration, and testing guidelines using Revolut's Merchant API.
+This example demonstrates how to integrate Revolut Pay into your checkout process using a two-tiered approach that separates the client-side presentation from the backend logic. Explore this simplified demo to observe the code and SDK configuration you need to familiarise yourself with Revolut Pay.
 
-## System requirements
+The example inlcudes a simple Node.JS server app using the Merchant API, paired with a simple HTML client checkout experience.
 
+**You only need to run the server component - the server handles order creation and serves the client checkout page.**
+
+> [!TIP]
+> For testing we suggest configuring the demo with your Sandbox API keys.
+
+## Architecture
+
+- **Backend (Server)**
+  - Creates orders and handles tokens needed to initialise the payment session.
+  - Serves the client-side checkout page.
+- **Frontend (Client)**
+  - A simple HTML page that renders the Revolut Pay button using the token provided by the server.
+
+## Integration paths
+
+The example showcases two integration options:
+
+- Event handling: The SDK listens to payment events (e.g., success, error, cancel) via callbacks.
+- Redirect URLs: The SDK redirects the user to a specified URLs based on the payment outcome
+
+> [!NOTE]
+> For further details about the code and the SDK's behaviour, please refer to the inline comments in the code.
+
+## Requirements
+
+- Revolut Merchant API keys
 - Node.js 16 or later
 
 ## Setup
 
-1. Clone this repo
+### 1. Installation
+
+1. Start by cloning the repository:
 
     ```sh
-    $ git clone git@github.com:revolut-engineering/revolut-checkout-example.git
-    $ cd revolut-checkout-example/revolut-pay-example/server
+    git clone git@github.com:revolut-engineering/revolut-checkout-example.git
     ```
 
-1. Install dependencies
+1. Open the repository folder:
+
+    ```sh
+    cd revolut-checkout-example/revolut-pay-example/server
+    ```
+
+1. Install dependencies with your package manager:
 
     ```sh title='NPM'
-    $ npm install
+    npm install
+    ```
+    ```sh title='Yarn'
+    yarn install
     ```
 
-1. Create a [Revolut Business sandbox account](https://sandbox-business.revolut.com)
+### 2. Create account
 
-1. Update your API keys
+1. If you didn't have already, create a [Revolut Business sandbox account](https://sandbox-business.revolut.com)
+1. Get your Public and Private API keys from [Merchant API settings](https://sandbox-business.revolut.com/settings/apis?tab=merchant-api).
 
-    Copy and rename `.env.example` file to `.env` and update it with your [keys](https://sandbox-business.revolut.com/merchant/api)
+### 3. Set enviroment variables
+
+1. Copy and rename the `.env.example` file to `.env`
+1. Add your corresponding API keys to the following variables:
     
-    ```
+    ```properties
     REVOLUT_API_PUBLIC_KEY=<your_revolut_public_key>
     REVOLUT_API_SECRET_KEY=<your_revolut_secret_key>
     ```
 
-1. Run the server
+### 4. Run the application
+
+1. Run the server to host the application on your localhost:
 
     ```sh title='NPM'
-    $ npm start
+    npm start
+    ```
+    ```sh title='Yarn'
+    yarn install
     ```
 
+
+### 5. Test the SDK
+
+1. Visit [http://localhost:5177/](http://localhost:5177/) to see the application.
+
+1. Try out different [payment flows](https://developer.revolut.com/docs/guides/accept-payments/get-started/test-implementation/test-flows#revolut-pay) using our [test cards](https://developer.revolut.com/docs/guides/accept-payments/get-started/test-in-the-sandbox-environment/test-cards) in the Sandbox environment.
+
 > [!TIP]
-> For testing purposes you can use our [test cards](https://developer.revolut.com/docs/guides/accept-payments/get-started/test-in-the-sandbox-environment/test-cards).
-> For testing other environments you can change the `REVOLUT_API_URL`, update you Revolut keys and start the server again.
+> To test the SDK in production enviroment update the following enviroment variables: `REVOLUT_API_URL`, `REVOLUT_API_PUBLIC_KEY`, `REVOLUT_API_SECRET_KEY` and restart the server.
 
 ## Webhooks
 
-The Revolut Merchant API supports [webhooks](https://developer.revolut.com/docs/merchant/webhooks) to push event notifications corresponding to order and payment status changes to an specified URL.
+The Revolut Merchant API supports [webhooks](https://developer.revolut.com/docs/merchant/webhooks) to push event notifications corresponding to order and payment status changes to a specified URL.
 
 > [!NOTE]
 > For more information, see: [Use webhooks to keep track of the payment lifecycle](https://developer.revolut.com/docs/guides/accept-payments/tutorials/work-with-webhooks/using-webhooks)
