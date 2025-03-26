@@ -34,7 +34,7 @@ The example showcases two integration options:
 - Revolut Merchant API keys
 - Node.js 16 or later
 
-## Setup
+## Project setup
 
 ### 1. Installation
 
