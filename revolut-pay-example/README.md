@@ -101,56 +101,68 @@ The example showcases two integration options:
 
 ## Webhooks
 
-The Revolut Merchant API supports [webhooks](https://developer.revolut.com/docs/merchant/webhooks) to push event notifications corresponding to order and payment status changes to a specified URL.
+The Revolut Merchant API supports [webhooks](https://developer.revolut.com/docs/merchant/webhooks) which deliver asynchronous event notifications about order and payment status changes.
 
 > [!NOTE]
 > For more information, see: [Use webhooks to keep track of the payment lifecycle](https://developer.revolut.com/docs/guides/accept-payments/tutorials/work-with-webhooks/using-webhooks)
 
-### Set up webhooks for your localhost
+### 1. Set up a public URL for your localhost
 
-1. Set a public URL for your localhost
+1. Install [ngrok](https://www.npmjs.com/package/ngrok) or any similar tool to obtain a public URL:
 
-    Use [ngrok](https://www.npmjs.com/package/ngrok) or any similar tool to obtain a public URL.
-    
-    ```sh
-    $ npm install ngrok -g
-    $ ngrok http 5177
-    ```
+  ```sh
+  npm install ngrok -g
+  ```
+  ```sh
+  yarn global add ngrok
+  ```
 
-1. Set up a webhook URL in the Merchant API
+1. Start ngrok on your server port:
 
-    Check the [Create a webhook](https://developer.revolut.com/docs/merchant/set-webhook) endpoint in the Merchant API specification.
+  ```sh
+  ngrok http 5177
+  ```
 
-    Replace `<yourSecretApiKey>` with the same key you used in the `.env` file (`REVOLUT_API_SECRET_KEY`) and `<yourPublicUrl>` with the public URL obtained in the previous step.
+The command outputs a public URL where you can access your demo app when your localhost is running. You'll use this public URL in the next step.
 
-    ```sh
-    curl -L -X POST 'https:/sandbox-merchant.revolut.com/api/1.0/webhooks' \
-    -H 'Content-Type: application/json' \
-    -H 'Accept: application/json' \
-    -H 'Authorization: Bearer <yourSecretApiKey>' \
-    --data-raw '{
-      "url": "<yourPublicUrl>",
-      "events": [
-        "ORDER_COMPLETED",
-        "ORDER_AUTHORISED"
-      ]
-    }'
-    ```
+### 2. Configure the webhook in the Merchant API
 
-    The response has the following JSON structure:
-    
-    ```json
-    {
-      "id": "396a4d93-70c3-44ca-8fb9-ca903a5505d7",
-      "url": "<your_public_url>/webhook",
-      "events": ["ORDER_COMPLETED", "ORDER_AUTHORISED"],
-      "signing_secret": "<signing_secret_key>"
-    }
-    ```
+1. Check the [Create a webhook](https://developer.revolut.com/docs/merchant/set-webhook) endpoint in the Merchant API documentation.
+1. Set up a webhook URL in the Merchant API by posting this request:
 
-1. Use the `signing_secret` in your `.env` file (`REVOLUT_WEBHOOK_SECRET`) and start the server.
-    
-1. You should see events logged in the console where the CLI is running.
+  ```sh
+  curl -L -X POST 'https://sandbox-merchant.revolut.com/api/1.0/webhooks' \
+  -H 'Content-Type: application/json' \
+  -H 'Accept: application/json' \
+  -H 'Authorization: Bearer <yourSecretApiKey>' \
+  --data-raw '{
+    "url": "<yourPublicUrl>/webhook",
+    "events": [
+      "ORDER_COMPLETED",
+      "ORDER_AUTHORISED"
+    ]
+  }'
+  ```
+
+  Replace `<yourSecretApiKey>` with your secret key (as in your `.env` file, `REVOLUT_API_SECRET_KEY`) and `<yourPublicUrl>` with the public URL from ngrok.
+
+  You should receive a JSON with the following sturcture:
+  
+  ```json
+  {
+    "id": "396a4d93-70c3-44ca-8fb9-ca903a5505d7",
+    "url": "<your_public_url>/webhook",
+    "events": ["ORDER_COMPLETED", "ORDER_AUTHORISED"],
+    "signing_secret": "<signing_secret_key>"
+  }
+  ```
+
+### 3. Finalise your setup
+
+1. Update environment variables, by adding the returned `signing_secret` to your `.env` file as `REVOLUT_WEBHOOK_SECRET`.    
+1. (Re)start your local server.
+
+When your server is running, you should see webhook events logged in the console as they are received.
 
 ## Documentation
 
