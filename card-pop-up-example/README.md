@@ -156,14 +156,14 @@ When your server is running, you should see webhook events logged in the console
 
 ## Related
 
-- [Card field guide](https://developer.revolut.com/docs/guides/accept-payments/payment-methods/card-payments/web/card-field) - Official integration guide for the Revolut Card field SDK.
+- [Card pop-up guide](https://developer.revolut.com/docs/guides/accept-payments/payment-methods/card-payments/web/pop-up) - Official integration guide for the Revolut Card pop-up SDK.
 - [Test cards](https://developer.revolut.com/docs/guides/accept-payments/get-started/test-implementation/test-cards) - Use these for testing in the Sandbox environment.
 - [`@revolut/checkout`](https://github.com/revolut-engineering/revolut-checkout) - RevolutCheckout.js npm module.
 - R[evolut Business Sandbox](https://sandbox-business.revolut.com) - Create your Revolut Business sandbox account.
 - [Webhooks documentation](https://developer.revolut.com/docs/guides/accept-payments/tutorials/work-with-webhooks/using-webhooks) - Learn how Revolut's asynchronous webhook notifications work.
 - [Create a webhook](https://developer.revolut.com/docs/merchant/create-webhook) - API endpoint details for setting up webhooks.
 - [`revolut-pay-example`](../revolut-pay-example/) - A related example demonstrating the Revolut Pay Web SDK and order management.
-- [`card-pop-up-example`](../card-pop-up-example/) - A related example demonstrating the Revolut Card pop-up SDK.
+- [`card-field-example`](../card-field-example/) - A related example demonstrating the Revolut Card field SDK.
 
 ---
 
