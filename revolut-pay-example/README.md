@@ -11,6 +11,8 @@ The example inlcudes a simple Node.JS server app using the Merchant API, paired 
 > [!TIP]
 > For testing we suggest configuring the demo with your Sandbox API keys.
 
+![Revolut Pay example flow](../images/revolut-pay-example.gif)
+
 ## Architecture
 
 - **Backend (Server)**
