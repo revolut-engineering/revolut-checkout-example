@@ -77,11 +77,6 @@ app.get(["/", "/card_popup"], (req, res) => {
   res.render("index");
 });
 
-// Checkout Page
-app.get("/checkout", (req, res) => {
-  res.render("checkout");
-});
-
 app.get("/config", (req, res) => {
   res.send({
     revolutPublicKey: process.env.REVOLUT_API_PUBLIC_KEY,

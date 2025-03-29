@@ -1,10 +1,16 @@
-import { staticProduct } from "./utils.js";
+import RevolutCheckout from "https://unpkg.com/@revolut/checkout/esm";
+import { addModalNotification, staticProduct } from "./utils.js";
 
-const checkoutButton = document.getElementById("checkout-btn");
+const payButton = document.getElementById("pay-button");
 
-if (checkoutButton) {
-  checkoutButton.addEventListener("click", async () => {
-    // Create the order
+if (payButton) {
+  payButton.addEventListener("click", async () => {
+    /**
+     * Create the order.
+     * Keep in mind that when to create the order is totally up to your implementation.
+     * But the widget needs it for its initialization.
+     * More info: https://developer.revolut.com/docs/guides/accept-payments/payment-methods/card-payments/web/pop-up#how-it-works
+     */
     const response = await fetch("/api/orders", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -17,7 +23,25 @@ if (checkoutButton) {
 
     const order = await response.json();
 
-    // Navigate to checkout page
-    window.location.href = `/checkout?order=${order.revolutPublicOrderId}`;
+    // Initialise the widget
+    const { payWithPopup } = await RevolutCheckout(
+      order.revolutPublicOrderId,
+      "sandbox",
+    );
+
+    // Configure card pop-up
+    // https://developer.revolut.com/docs/guides/accept-payments/payment-methods/card-payments/web/pop-up
+    payWithPopup({
+      onSuccess() {
+        addModalNotification(
+          "Payment successful",
+          "Your order is now completed",
+        );
+      },
+      onError() {
+        // Handle payment errors accordingly
+        addModalNotification("Payment failed", "Something went wrong");
+      },
+    });
   });
 }
