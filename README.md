@@ -10,7 +10,7 @@ The examples in this repository showcase how to integrate:
 
 - [**Revolut Pay**](https://github.com/revolut-engineering/revolut-checkout-example/tree/main/revolut-pay-example) - A complete integration example demonstrating how to accept payments via Revolut Pay.
 - [**Card field**](https://github.com/revolut-engineering/revolut-checkout-example/tree/main/card-field-example) - An example using an embedded card field for collecting card details.
-- [**Card pop-up**]((https://github.com/revolut-engineering/revolut-checkout-example/tree/main/card-pop-up-example)) - A demo of a pop-up widget for card payments that securely collects customer card details.
+- [**Card pop-up**](https://github.com/revolut-engineering/revolut-checkout-example/tree/main/card-pop-up-example) - A demo of a pop-up widget for card payments that securely collects customer card details.
 
 ## Documentation and other resources
 
