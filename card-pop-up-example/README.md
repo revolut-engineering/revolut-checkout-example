@@ -9,6 +9,8 @@ The example inlcudes a simple Node.JS server app using the Merchant API, paired 
 > [!TIP]
 > For testing we suggest configuring the demo with your Sandbox API keys.
 
+![Card pop-up example flow](../images/card-pop-up-example.gif)
+
 ## Architecture
 
 - **Backend (Server)**
@@ -19,12 +21,6 @@ The example inlcudes a simple Node.JS server app using the Merchant API, paired 
 
 > [!NOTE]
 > For further details about the code and the SDK's behaviour, please refer to the inline comments in the code.
-
-### Order management
-
-In this example, the order management process is left out, as it is entirely up to you to implement according to your specific requirements. For guidance and inspiration, please refer to our [`revolut-pay-example`](../revolut-pay-example), which demonstrates one way to handle order creation and management.
-
-Additionally, check out our [API explorer](https://developer.revolut.com/docs/merchant/merchant-api) for code examples in various languages to help you integrate and develop with the Revolut Merchant API.
 
 ## Requirements
 
