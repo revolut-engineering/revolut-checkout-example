@@ -5,7 +5,9 @@ import path from "path";
 import ejs from "ejs";
 import { fileURLToPath } from "url";
 import fetch from "node-fetch";
+import { validateSignature, validateTimestamp } from "./helpers.js";
 import orders from "./orders.js";
+import ordersQueue from "./queue/orders-queue.js";
 
 const app = express();
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -61,6 +63,64 @@ app.post("/api/orders", async (req, res) => {
     res.status(500).json({
       error: "Order creation failed",
     });
+  }
+});
+
+app.post("/webhook", (req, res) => {
+  try {
+    const revolutSignature = req.headers["revolut-signature"];
+    const revolutRequestTimestamp = req.headers["revolut-request-timestamp"];
+    const rawPayload = req.rawBody;
+    const payload = req.body;
+
+    // Revolut signature verification
+    // For more information visit https://developer.revolut.com/docs/guides/accept-payments/tutorials/work-with-webhooks/verify-the-payload-signature
+    const revolutSignatureVersion = revolutSignature.substring(
+      0,
+      revolutSignature.indexOf("="),
+    );
+    const payloadToSign =
+      `${revolutSignatureVersion}.` +
+      `${revolutRequestTimestamp}.` +
+      rawPayload;
+    const isSignatureValid = validateSignature({
+      signatureVersion: revolutSignatureVersion,
+      originalSignature: revolutSignature,
+      signingSecret: process.env.REVOLUT_WEBHOOK_SECRET,
+      payloadToSign,
+    });
+
+    // Validates if the timestamp is within an acceptable timeframe
+    // For more information visit https://webhooks.fyi/security/replay-prevention
+    const isTimestampValid = validateTimestamp(revolutRequestTimestamp);
+
+    if (!isTimestampValid) {
+      // The request timestamp is outside of the tolerance zone.
+      return res.status(403).send("Timestamp outside the tolerance zone");
+    }
+
+    if (isSignatureValid) {
+      switch (payload.event) {
+        // Don't process orders directly in the webhook handler
+        // Schedule order management logic (send emails, update orders, etc.) and return 200 as soon as possible
+        case "ORDER_COMPLETED":
+          console.log("Webhook - Order Completed!");
+          ordersQueue.push(payload);
+          break;
+        case "ORDER_AUTHORISED":
+          console.log("Webhook - Order Authorised!");
+          ordersQueue.push(payload);
+          break;
+        default:
+          console.log("Webhook - Order Event", payload.event);
+          ordersQueue.push(payload);
+          break;
+      }
+
+      res.sendStatus(200);
+    }
+  } catch (error) {
+    console.log(error);
   }
 });
 
