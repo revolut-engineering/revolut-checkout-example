@@ -1,8 +1,6 @@
-# Revolut Pay integration example
+# Card field example
 
-![Revolut Pay logo](../images/logo-revolut-pay.svg)
-
-This example demonstrates how to integrate the Revolut Pay Web SDK into your checkout process using a two-tiered approach that separates the client-side presentation from the backend logic. Explore this simplified demo to observe the code and SDK configuration you need to start accepting payments with Revolut Pay.
+This example demonstrates how to integrate the Revolut Card field SDK into your checkout process using a two-tiered approach that separates the client-side presentation from the backend logic. Explore this simplified demo to observe the code and SDK configuration you need to start accepting payments with Revolut Card field.
 
 The example inlcudes a simple Node.JS server app using the Merchant API, paired with a simple HTML client checkout experience.
 
@@ -11,7 +9,7 @@ The example inlcudes a simple Node.JS server app using the Merchant API, paired 
 > [!TIP]
 > For testing we suggest configuring the demo with your Sandbox API keys.
 
-![Revolut Pay example flow](../images/revolut-pay-example.gif)
+![Card field example flow](../images/card-field-example.gif)
 
 ## Architecture
 
@@ -20,13 +18,6 @@ The example inlcudes a simple Node.JS server app using the Merchant API, paired 
   - Serves the client-side checkout page.
 - **Frontend (Client)**
   - A simple HTML page that renders the Revolut Pay button using the token provided by the server.
-
-## Integration paths
-
-The example showcases two integration options:
-
-- **Event handling:** The SDK listens to payment events (e.g., success, error, cancel) via callbacks.
-- **Redirect URLs:** The SDK redirects the user to a specified URLs based on the payment outcome
 
 > [!NOTE]
 > For further details about the code and the SDK's behaviour, please refer to the inline comments in the code.
@@ -37,7 +28,6 @@ The example showcases two integration options:
 - Node.js 16 or later
 
 ## Project setup
-
 ### 1. Installation
 
 1. Start by cloning the repository:
@@ -49,7 +39,7 @@ The example showcases two integration options:
 1. Open the repository folder:
 
     ```sh
-    cd revolut-checkout-example/revolut-pay-example/server
+    cd revolut-checkout-example/card-field-example/server
     ```
 
 1. Install dependencies with your package manager:
@@ -87,19 +77,13 @@ The example showcases two integration options:
     yarn start
     ```
 
-
 ### 5. Test the SDK
 
 1. Visit [http://localhost:5177/](http://localhost:5177/) to see the application.
-1. From the sidebar, select the integration you want to test:
-  - **Event Handlers**
-  - **Redirect URLs** 
-1. Try out different [payment flows](https://developer.revolut.com/docs/guides/accept-payments/get-started/test-implementation/test-flows#revolut-pay) using our [test cards](https://developer.revolut.com/docs/guides/accept-payments/get-started/test-in-the-sandbox-environment/test-cards) in the Sandbox environment.
+1. Try out different payment flows scenarios using our [test cards](https://developer.revolut.com/docs/guides/accept-payments/get-started/test-in-the-sandbox-environment/test-cards) in the Sandbox environment.
 
 > [!TIP]
 > To test the SDK in production enviroment update the following enviroment variables: `REVOLUT_API_URL`, `REVOLUT_API_PUBLIC_KEY`, `REVOLUT_API_SECRET_KEY` and restart the server.
->
-> To test Revolut Pay account-to-account payment flow in prodcution, you need a Revolut account and the Revolut app installed.
 
 ## Webhooks
 
@@ -110,7 +94,7 @@ The Revolut Merchant API supports [webhooks](https://developer.revolut.com/docs/
 
 ### 1. Set up a public URL for your localhost
 
-1. Install [ngrok](https://www.npmjs.com/package/ngrok) or any similar tool to obtain a public URL of your local applciation:
+1. Install [ngrok](https://www.npmjs.com/package/ngrok) or any similar tool to obtain a public URL of your local application:
 
   ```sh
   npm install ngrok -g
@@ -166,16 +150,17 @@ The command outputs a public URL where you can access your demo app when your lo
 
 When your server is running, you should see webhook events logged in the console as they are received.
 
+
 ## Related
 
-- [Revolut Pay guide](https://developer.revolut.com/docs/guides/accept-payments/payment-methods/revolut-pay/web) - Official integration guide for Revolut Pay Web SDK.
+- [Card field guide](https://developer.revolut.com/docs/guides/accept-payments/payment-methods/card-payments/web/card-field) - Official integration guide for the Revolut Card field SDK.
 - [Test cards](https://developer.revolut.com/docs/guides/accept-payments/get-started/test-implementation/test-cards) - Use these for testing in the Sandbox environment.
 - [`@revolut/checkout`](https://github.com/revolut-engineering/revolut-checkout) - RevolutCheckout.js npm module.
 - [Revolut Business Sandbox](https://sandbox-business.revolut.com) - Create your Revolut Business sandbox account.
 - [Webhooks documentation](https://developer.revolut.com/docs/guides/accept-payments/tutorials/work-with-webhooks/using-webhooks) - Learn how Revolut's asynchronous webhook notifications work.
 - [Create a webhook](https://developer.revolut.com/docs/merchant/create-webhook) - API endpoint details for setting up webhooks.
-- [`card-field`](/card-field-example) - A related example demonstrating the Revolut Card field SDK.
-- [`card-pop-up-example`](../card-pop-up-example) - A related example demonstrating the Revolut Card pop-up SDK.
+- [`revolut-pay-example`](../revolut-pay-example/) - A related example demonstrating the Revolut Pay Web SDK and order management.
+- [`card-pop-up-example`](../card-pop-up-example/) - A related example demonstrating the Revolut Card pop-up SDK.
 
 ---
 

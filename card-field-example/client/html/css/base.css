@@ -70,6 +70,26 @@ body {
   font-weight: 700;
 }
 
+.checkout-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.checkout {
+  background-color: #4f55f1;
+  border: none;
+  border-radius: 12px;
+  width: 80%;
+  color: white;
+  padding: 20px;
+  text-align: center;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+}
+
 #notifications {
   display: none;
   background-color: #191c1f;
