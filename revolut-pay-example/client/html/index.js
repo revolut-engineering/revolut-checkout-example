@@ -21,6 +21,21 @@ document.addEventListener("DOMContentLoaded", async () => {
     publicToken: revolutPublicKey, // Merchant public API key
   });
 
+  const { promotionalBanner } = await RevolutCheckout.upsell({
+    locale: 'auto', // Optional, defaults to 'auto'
+    mode: 'sandbox', // Optional, defaults to 'prod'
+    publicToken: revolutPublicKey, // Merchant public API key
+  })
+
+  const bannerOptions = {
+    variant: 'banner',
+    transactionId: '12345',
+    amount: 500,
+    currency: 'GBP'
+  }
+
+  promotionalBanner.mount(document.getElementById("promotional-banner"), bannerOptions)
+
   const paymentOptions = {
     currency: staticProduct.currency,
     totalAmount: staticProduct.amount,
