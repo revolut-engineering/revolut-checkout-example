@@ -31,7 +31,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     variant: 'banner',
     transactionId: '12345',
     amount: 500,
-    currency: 'GBP'
+    currency: 'GBP',
+    style: {
+      fontSize: '12px',
+    }
   }
 
   promotionalBanner.mount(document.getElementById("promotional-banner"), bannerOptions)
