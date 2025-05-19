@@ -1,0 +1,94 @@
+ul,
+li,
+a {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  list-style: none;
+  text-decoration: none;
+}
+
+body {
+  background-color: #f3f5f9;
+}
+
+.wrapper {
+  display: flex;
+  position: relative;
+}
+
+.wrapper .sidebar {
+  width: 200px;
+  height: 100%;
+  background: #191c1f;
+  padding: 20px 0;
+  position: fixed;
+}
+
+.wrapper .sidebar h2 {
+  color: #fff;
+  text-transform: uppercase;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.category {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #fff;
+  font-weight: 500;
+  padding: 15px;
+  border-bottom: 1px solid #bdb8d7;
+  border-bottom: 1px solid rgb(0 0 0 / 5%);
+  border-top: 1px solid rgb(255 255 255 / 5%);
+}
+
+.sub-category a {
+  padding: 15px;
+  color: black;
+  background-color: #f1f1f1;
+}
+
+.wrapper .sidebar ul li a {
+  display: block;
+}
+
+.wrapper .sidebar ul li a:hover {
+  color: #fff;
+  background-color: #616164;
+}
+
+.wrapper main {
+  width: 100%;
+  margin-left: 200px;
+  padding: 0 20px;
+}
+
+.sidebar .sub-category {
+  display: none;
+}
+
+.chevron {
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  display: inline-block;
+  padding: 3px;
+  transform: rotate(45deg);
+  transition:
+    transform 0.3s ease-out,
+    margin 0.3s ease-out; /* Added transition for smooth rotation and margin changes */
+}
+
+.sidebar .category:hover .chevron {
+  cursor: pointer;
+}
+
+.sidebar .category.active .chevron {
+  transform: rotate(-135deg);
+  margin-top: 4px;
+}
+
+.sidebar .category.active + .sub-category {
+  display: block;
+}
