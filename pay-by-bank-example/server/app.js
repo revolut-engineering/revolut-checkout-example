@@ -34,21 +34,19 @@ app.post("/api/orders", async (req, res) => {
   try {
     const { amount, currency, name } = req.body;
     // For more information, see: https://developer.revolut.com/docs/merchant/create-order
-    const response = await fetch(
-      `${process.env.REVOLUT_API_URL}/api/1.0/orders`,
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${process.env.REVOLUT_API_SECRET_KEY}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          description: name,
-          amount,
-          currency,
-        }),
+    const response = await fetch(`${process.env.REVOLUT_API_URL}/api/orders`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${process.env.REVOLUT_API_SECRET_KEY}`,
+        "Content-Type": "application/json",
+        "Revolut-Api-Version": "2024-09-01",
       },
-    );
+      body: JSON.stringify({
+        description: name,
+        amount,
+        currency,
+      }),
+    });
 
     const revolutOrder = await response.json();
     const { revolutPublicOrderId, description, state } =

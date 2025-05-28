@@ -34,7 +34,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         });
 
         const order = await response.json();
-        console.log('index order', order);
         return { publicId: order.revolutPublicOrderId };
       },
       onSuccess() {

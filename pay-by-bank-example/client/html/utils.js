@@ -41,7 +41,7 @@ export const addModalNotification = (title, notification) => {
 };
 
 export const staticProduct = {
-  currency: "USD",
+  currency: "GBP",
   amount: 57,
   name: "Rounded Glasses",
 };

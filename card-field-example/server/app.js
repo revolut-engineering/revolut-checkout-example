@@ -38,7 +38,7 @@ app.post("/api/orders", async (req, res) => {
       headers: {
         Authorization: `Bearer ${process.env.REVOLUT_API_SECRET_KEY}`,
         "Content-Type": "application/json",
-        "Revolut-Api-Version": "2023-09-01",
+        "Revolut-Api-Version": "2024-09-01",
       },
       body: JSON.stringify({
         description: name,
