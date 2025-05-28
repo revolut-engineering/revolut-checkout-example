@@ -53,6 +53,7 @@ The example includes a simple Node.JS server app using the Merchant API, paired 
 
 > [!NOTE]
 > Pay by Bank is not available in the sandbox environment. Real transactions must be made to test your implementation in the production environment.
+>
 > To test the SDK in production environment update the following environment variables: `REVOLUT_API_URL`, `REVOLUT_API_PUBLIC_KEY`, `REVOLUT_API_SECRET_KEY` and restart the server.
 
 1. Copy and rename the `.env.example` file to `.env`.
