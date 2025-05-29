@@ -67,34 +67,6 @@ app.post("/api/orders", async (req, res) => {
   }
 });
 
-// Get the order
-app.get("/api/orders/:id", async (req, res) => {
-  try {
-    const order = orders.getOrderByRevolutPublicId(req.params.id);
-    const response = await fetch(
-      // For more information, see: https://developer.revolut.com/docs/merchant/retrieve-order
-      // We use the internal revolut id instead of the public one
-      `${process.env.REVOLUT_API_URL}/api/1.0/orders/${order.revolutOrderId}`,
-      {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${process.env.REVOLUT_API_SECRET_KEY}`,
-          "Content-Type": "application/json",
-        },
-      },
-    );
-
-    res.status(response.status);
-
-    res.json(await response.json());
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({
-      error: "Failed to get order",
-    });
-  }
-});
-
 app.post("/webhook", (req, res) => {
   try {
     const revolutSignature = req.headers["revolut-signature"];
@@ -173,21 +145,6 @@ app.get("/config", (req, res) => {
 
 // Optionally, you can define a static files directory (CSS, JS, images, etc.)
 app.use("/", express.static(path.join(__dirname, process.env.STATIC_DIR)));
-
-// Order status Page
-app.get("/order-status", (req, res) => {
-  res.render("order-status");
-});
-
-// Redirect URLs Page
-app.get("/redirect_urls", (req, res) => {
-  res.render("redirect-urls");
-});
-
-// Handling Redirect URLs (success|cancel|failure)
-app.get("/:type(success|cancel|failure)", (req, res) => {
-  res.render("order-status");
-});
 
 app.use((req, res) => {
   res.status(404);
