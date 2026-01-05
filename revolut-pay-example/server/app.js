@@ -74,7 +74,7 @@ app.get("/api/orders/:id", async (req, res) => {
     const response = await fetch(
       // For more information, see: https://developer.revolut.com/docs/merchant/retrieve-order
       // We use the internal revolut id instead of the public one
-      `${process.env.REVOLUT_API_URL}/api/1.0/orders/${order.revolutOrderId}`,
+      `${process.env.REVOLUT_API_URL}/api/orders/${order.revolutOrderId}`,
       {
         method: "GET",
         headers: {
