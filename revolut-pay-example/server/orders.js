@@ -8,11 +8,11 @@ const createOrder = (revolutOrder) => {
   const order = {
     id: orderId,
     revolutOrderId: revolutOrder.id,
-    revolutPublicOrderId: revolutOrder.public_id,
+    revolutPublicOrderId: revolutOrder.token,
     description: revolutOrder.description,
     state: revolutOrder.state,
-    amount: revolutOrder["order_amount"].value,
-    currency: revolutOrder["order_amount"].currency,
+    amount: revolutOrder.amount,
+    currency: revolutOrder.currency,
   };
 
   orders.set(orderId, order);
