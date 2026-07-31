@@ -150,6 +150,8 @@ The command outputs a public URL where you can access your demo app when your lo
 
 When your server is running, you should see webhook events logged in the console as they are received.
 
+A webhook is a trigger, not final payment proof. Before fulfilling an order, retrieve it with the Merchant API and verify the order state, amount, and currency server-side.
+
 ## Related
 
 - [Card pop-up guide](https://developer.revolut.com/docs/guides/accept-payments/payment-methods/card-payments/web/pop-up) - Official integration guide for the Revolut Card pop-up SDK.

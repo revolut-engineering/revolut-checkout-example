@@ -110,7 +110,7 @@ The Revolut Merchant API supports [webhooks](https://developer.revolut.com/docs/
 
 ### 1. Set up a public URL for your localhost
 
-1. Install [ngrok](https://www.npmjs.com/package/ngrok) or any similar tool to obtain a public URL of your local applciation:
+1. Install [ngrok](https://www.npmjs.com/package/ngrok) or any similar tool to obtain a public URL of your local application:
 
   ```sh
   npm install ngrok -g
@@ -165,6 +165,8 @@ The command outputs a public URL where you can access your demo app when your lo
 1. (Re)start your local server.
 
 When your server is running, you should see webhook events logged in the console as they are received.
+
+A webhook is a trigger, not final payment proof. Before fulfilling an order, retrieve it with the Merchant API and verify the order state, amount, and currency server-side.
 
 ## Related
 
