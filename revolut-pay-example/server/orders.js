@@ -45,18 +45,18 @@ const getOrderByRevolutId = (revolutOrderId) => {
   return null;
 };
 
-const updateOrderStatus = (orderId, newStatus) => {
+const updateOrderStatus = (orderId, newState) => {
   const orderData = orders.get(orderId);
 
   if (orderData) {
-    const updatedOrderData = { ...orderData, status: newStatus };
+    const updatedOrderData = { ...orderData, state: newState };
     orders.set(orderId, updatedOrderData);
 
     console.log(
-      `Order status updated for orderId: ${orderId} - New status: ${newStatus}`,
+      `Order status updated for orderId: ${orderId} - New state: ${newState}`,
     );
   } else {
-    console.log(`Order with orderId ${orderId} not found `);
+    console.log(`Order with orderId ${orderId} not found`);
   }
 };
 

@@ -5,11 +5,16 @@ import path from "path";
 import ejs from "ejs";
 import { fileURLToPath } from "url";
 import fetch from "node-fetch";
-import { validateSignature, validateTimestamp } from "./helpers.js";
+import {
+  parseSignatureHeader,
+  validateSignature,
+  validateTimestamp,
+} from "./helpers.js";
 import orders from "./orders.js";
 import ordersQueue from "./queue/orders-queue.js";
 
 const app = express();
+const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 // use environment variables from .env
@@ -102,22 +107,15 @@ app.post("/webhook", (req, res) => {
     const rawPayload = req.rawBody;
     const payload = req.body;
 
-    // Revolut signature verification
-    // For more information visit https://developer.revolut.com/docs/guides/accept-payments/tutorials/work-with-webhooks/verify-the-payload-signature
-    const revolutSignatureVersion = revolutSignature.substring(
-      0,
-      revolutSignature.indexOf("="),
-    );
-    const payloadToSign =
-      `${revolutSignatureVersion}.` +
-      `${revolutRequestTimestamp}.` +
-      rawPayload;
-    const isSignatureValid = validateSignature({
-      signatureVersion: revolutSignatureVersion,
-      originalSignature: revolutSignature,
-      signingSecret: process.env.REVOLUT_WEBHOOK_SECRET,
-      payloadToSign,
-    });
+    if (!revolutSignature || !revolutRequestTimestamp) {
+      return res.status(400).send("Missing signature headers");
+    }
+
+    const signatureEntries = parseSignatureHeader(revolutSignature);
+
+    if (signatureEntries.length === 0) {
+      return res.status(400).send("Malformed signature header");
+    }
 
     // Validates if the timestamp is within an acceptable timeframe
     // For more information visit https://webhooks.fyi/security/replay-prevention
@@ -128,28 +126,49 @@ app.post("/webhook", (req, res) => {
       return res.status(403).send("Timestamp outside the tolerance zone");
     }
 
-    if (isSignatureValid) {
-      switch (payload.event) {
-        // Don't process orders directly in the webhook handler
-        // Schedule order management logic (send emails, update orders, etc.) and return 200 as soon as possible
-        case "ORDER_COMPLETED":
-          console.log("Webhook - Order Completed!");
-          ordersQueue.push(payload);
-          break;
-        case "ORDER_AUTHORISED":
-          console.log("Webhook - Order Authorised!");
-          ordersQueue.push(payload);
-          break;
-        default:
-          console.log("Webhook - Order Event", payload.event);
-          ordersQueue.push(payload);
-          break;
-      }
+    // Revolut signature verification
+    // For more information visit https://developer.revolut.com/docs/guides/accept-payments/tutorials/work-with-webhooks/verify-the-payload-signature
+    const isSignatureValid = validateSignature({
+      originalSignature: revolutSignature,
+      requestTimestamp: revolutRequestTimestamp,
+      rawPayload,
+      signingSecrets: process.env.REVOLUT_WEBHOOK_SECRET,
+    });
 
-      res.sendStatus(200);
+    if (!isSignatureValid) {
+      return res.status(403).send("Invalid signature");
+    }
+
+    if (!payload.event) {
+      return res.status(400).send("Missing webhook event");
+    }
+
+    switch (payload.event) {
+      // Don't process orders directly in the webhook handler.
+      // A webhook is a trigger, not final payment proof. Retrieve the order server-side before fulfilment.
+      case "ORDER_COMPLETED":
+        if (!payload.order_id) {
+          return res.status(400).send("Missing order id");
+        }
+
+        console.log("Webhook - Order Completed!");
+        ordersQueue.push(payload);
+        return res.sendStatus(200);
+      case "ORDER_AUTHORISED":
+        if (!payload.order_id) {
+          return res.status(400).send("Missing order id");
+        }
+
+        console.log("Webhook - Order Authorised!");
+        ordersQueue.push(payload);
+        return res.sendStatus(200);
+      default:
+        console.log("Webhook - Order Event", payload.event);
+        return res.sendStatus(200);
     }
   } catch (error) {
-    console.log(error);
+    console.error(error);
+    return res.status(400).send("Bad request");
   }
 });
 
@@ -196,6 +215,17 @@ app.use((req, res) => {
 
 /* ################ end CLIENT ENDPOINTS ################ */
 
-app.listen(process.env.PORT || 5177, () =>
-  console.log(`Server running on http://localhost:${process.env.PORT || 5177}`),
-);
+const startServer = () => {
+  const port = process.env.PORT || 5177;
+
+  return app.listen(port, () =>
+    console.log(`Server running on http://localhost:${port}`),
+  );
+};
+
+if (process.argv[1] === __filename) {
+  startServer();
+}
+
+export { startServer };
+export default app;
